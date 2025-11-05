@@ -1,0 +1,36 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    VIEW SPOTS - PARKING
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Available Spots in {{ lot.lot_name }}</h2>
+    <p><strong>Location:</strong> {{ lot.location }}</p>
+    <p><strong>Billing Rate:</strong> ${{ lot.billing_rate }}</p>
+
+    {% if spots %}
+    <table class="table table-striped mt-4">
+        <thead>
+            <tr>
+                <th>Spot Number</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for spot in spots %}
+            <tr>
+                <td>{{ spot.spot_number }}</td>
+                <td>Available</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="text-danger mt-4">No spots available at the moment.</p>
+    {% endif %}
+
+    <a href="{{ url_for('user_dashboard') }}" class="btn btn-primary mt-3">Back to Dashboard</a>
+</div>
+{% endblock %}

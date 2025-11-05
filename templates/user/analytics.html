@@ -1,0 +1,47 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+User Analytics - Spot Usage
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2 class="mb-4">Your Parking Spot Usage</h2>
+  {% if labels %}
+    <canvas id="spotChart" width="400" height="200"></canvas>
+  {% else %}
+    <div class="alert alert-info">No reservation data available.</div>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const ctx = document.getElementById('spotChart').getContext('2d');
+  const spotChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: {{ labels|tojson }},
+      datasets: [{
+        label: 'Times Used',
+        data: {{ values|tojson }},
+        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      scales: {
+        x: {
+          beginAtZero: true,
+          ticks: {
+            precision: 0
+          }
+        }
+      }
+    }
+  });
+</script>
+{% endblock %}

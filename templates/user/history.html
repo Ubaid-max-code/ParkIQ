@@ -1,0 +1,64 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Reservation History
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Your Reservation History</h2>
+    
+    {% if reservations %}
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>#</th>
+                <th>Lot Name</th>
+                <th>Location</th>
+                <th>Spot Number</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Duration (hrs)</th>
+                <th>Total Cost (₹)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reservation in reservations %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ reservation.spot.parking_lot.lot_name }}</td>
+                <td>{{ reservation.spot.parking_lot.location }}</td>
+                <td>{{ reservation.spot.spot_number }}</td>
+                <td>{{ reservation.start_time.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                <td>
+                    {% if reservation.end_time %}
+                        {{ reservation.end_time.strftime('%Y-%m-%d %H:%M:%S') }}
+                    {% else %}
+                        <span class="text-warning">Active</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if reservation.total_duration %}
+                        {{ '%.2f'|format(reservation.total_duration) }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+                <td>
+                    {% if reservation.grand_total %}
+                        ₹{{ '%.2f'|format(reservation.grand_total) }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p class="text-muted">You have no reservation history yet.</p>
+    {% endif %}
+</div>
+{% endblock %}
+
+

@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+     VIEW SPOTS --PARKING
+{% endblock  %}
+
+{% block content %}
+<div class="container mt-5">
+  <h1>Parking Spots for {{ lot.lot_name }}</h1>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Spot Number</th>
+        <th>Availability</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for spot in spots %}
+      <tr>
+        <td>{{ spot.spot_number }}</td>
+        <td>{{ 'Available' if spot.availability == 'A' else 'Occupied' }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

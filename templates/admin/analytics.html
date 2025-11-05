@@ -1,0 +1,89 @@
+{% extends 'layout.html' %}
+{% block title %}Admin Analytics{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Parking Lot Analytics</h2>
+
+    <!-- Row for Pie and Bar Charts -->
+    <div class="row">
+        <!-- Pie Chart -->
+        <div class="col-md-6">
+            <div class="card shadow p-3 mb-4 bg-white rounded">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Parking Spots Distribution</h5>
+                    <canvas id="pieChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bar Chart -->
+        <div class="col-md-6">
+            <div class="card shadow p-3 mb-4 bg-white rounded">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Available vs Occupied Spots</h5>
+                    <canvas id="barChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // Labels: Lot Names
+    const labels = {{ labels | tojson }};
+    const occupied = {{ occupied | tojson }};
+    const available = {{ available | tojson }};
+
+    // PIE CHART (Distribution of Total Spots per Lot)
+    const pieData = {
+        labels: labels,
+        datasets: [{
+            label: 'Total Spots per Lot',
+            data: labels.map((_, i) => occupied[i] + available[i]),
+            backgroundColor: [
+                '#ff6384', '#36a2eb', '#ffce56', '#4bc0c0', '#9966ff', '#ff9f40'
+            ],
+        }]
+    };
+
+    new Chart(document.getElementById('pieChart'), {
+        type: 'pie',
+        data: pieData
+    });
+
+    // BAR CHART (Occupied vs Available Spots)
+    const barData = {
+        labels: labels,
+        datasets: [
+            {
+                label: 'Occupied',
+                data: occupied,
+                backgroundColor: 'rgba(255, 99, 132, 0.7)'
+            },
+            {
+                label: 'Available',
+                data: available,
+                backgroundColor: 'rgba(75, 192, 192, 0.7)'
+            }
+        ]
+    };
+
+    new Chart(document.getElementById('barChart'), {
+        type: 'bar',
+        data: barData,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'top' },
+                title: {
+                    display: false,
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Admin Search
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Search Dashboard</h2>
+    <form method="POST" action="{{ url_for('admin_search') }}" class="mt-3 mb-4">
+        <div class="input-group">
+            <input type="text" name="search_query" class="form-control" placeholder="Search by username, lot name, or spot number">
+            <button class="btn btn-primary" type="submit">Search</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

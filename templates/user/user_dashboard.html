@@ -1,0 +1,48 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+     USER DASHBOARD
+{% endblock  %}
+
+{%  block content %}
+<div class="container mt-4">
+    <h2 class="mb-3">Welcome to the User Dashboard</h2>
+    <p>You can view parking lots and reserve your spot.</p>
+
+    <hr>
+
+    <h4>Available Parking Lots:</h4>
+    <ul class="list-group mb-4">
+        {% for lot in lots %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ lot.lot_name }} ({{ lot.location }})
+                <a href="{{ url_for('auto_reserve', lot_id=lot.lot_id) }}" class="btn btn-success btn-sm">Auto-Reserve</a>
+            </li>
+        {% else %}
+            <li class="list-group-item">No parking lots available.</li>
+        {% endfor %}
+    </ul>
+
+    <hr>
+
+    <h4>Your Active Reservation:</h4>
+    <ul class="list-group">
+        {% for res in reservations %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Lot: {{ res.parking_spot.parking_lot.lot_name }} | Spot: {{ res.parking_spot.spot_number }}
+                {% if not res.start_time %}
+                    <a href="{{ url_for('occupy_spot', reservation_id=res.id) }}" class="btn btn-primary btn-sm">Occupy</a>
+                {% else %}
+                    <span>Start Time: {{ res.start_time.strftime('%Y-%m-%d %H:%M:%S') }}</span>
+                    <a href="{{ url_for('release_spot', reservation_id=res.reservation_id) }}" class="btn btn-danger btn-sm">Release</a>
+                {% endif %}
+            </li>
+        {% else %}
+            <li class="list-group-item">No active reservations.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
+
+{% block style %}
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+     USER DASHBOARD
+{% endblock  %}
+
+{% block content %}
+<div class="container mt-5">
+     <h1>Welcome, {{ user.username }}</h1>
+     <p>Your role: {{ user.role }}</p>
+     <div class="row">
+          {% for lot in lots %}
+          <div class="col-md-4 mb-4">
+               <div class="card">
+                    <div class="card-body">
+                         <h5 class="card-title">{{ lot.lot_name }}</h5>
+                         <p class="card-text">
+                              Location: {{ lot.location }}<br>
+                              Postal Code: {{ lot.postal_code }}<br>
+                              Billing Rate: ${{ lot.billing_rate }}<br>
+                              Avalaible spots: {{lot.available_spots}}/{{lot.maximum_spots}}
+                         </p>
+                         <a href="{{ url_for('view_available_spots', lot_id=lot.lot_id) }}" class="btn btn-primary">View Spots</a>
+                         <a href="{{ url_for('auto_reserve', lot_id=lot.lot_id) }}" class="btn btn-success">
+                          Reserve First Available Spot
+                        </a>
+                    </div>
+                </div>
+          </div>
+          {% endfor %}
+      </div>
+</div>
+{% endblock %}

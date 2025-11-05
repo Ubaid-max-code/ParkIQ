@@ -1,0 +1,19 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+     PARKING
+{% endblock  %}
+
+{% block content %}
+Hello {{user.name if user else 'Guest'}}! Welcome to the Parking System.
+{% if user.role == 'admin' %}
+  <p>You have admin privileges.</p>
+{% elif user.role == 'user' %}
+  <p>You are logged in as a regular user.</p>
+{% else %}
+  <p>Please log in or register to access more features.</p>
+{% endif %}
+{% endblock  %}
+
+{% block style %}
+{% endblock  %}

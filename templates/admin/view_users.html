@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    VIEW USERS
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>Welcome, {{ user.username }}!</h1>
+    <p>Your role: {{ user.role }}</p>
+
+    <h2 class="mt-4">All Registered Users</h2>
+    <table class="table table-bordered mt-3">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Role</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for u in users %}
+            <tr>
+                <td>{{ u.id }}</td>
+                <td>{{ u.username }}</td>
+                <td>{{ u.role }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
